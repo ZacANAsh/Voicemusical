@@ -2,10 +2,24 @@
 // Inky black bg, cyan glow, big bold modern display type, ambient waves,
 // Hadestown/Wicked website energy.
 
+const useIsMobile = (bp = 760) => {
+  const [m, setM] = React.useState(
+    typeof window !== 'undefined' && window.innerWidth <= bp
+  );
+  React.useEffect(() => {
+    const onR = () => setM(window.innerWidth <= bp);
+    window.addEventListener('resize', onR);
+    return () => window.removeEventListener('resize', onR);
+  }, [bp]);
+  return m;
+};
+
 const Submerged = () => {
   const c = window.VOICE_CONTENT;
   const [playing, setPlaying] = React.useState(false);
   const [track, setTrack] = React.useState(0);
+  const m = useIsMobile();
+  const pad = m ? '60px 20px' : '120px 56px';
 
   const ink = '#070d14';
   const ink2 = '#0e1a26';
@@ -40,34 +54,41 @@ const Submerged = () => {
       <nav style={{
         position: 'relative', zIndex: 5,
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '24px 56px',
+        padding: m ? '16px 18px' : '24px 56px',
       }}>
         <div style={{
-          fontFamily: wordmark, fontWeight: 500, fontSize: 22,
+          fontFamily: wordmark, fontWeight: 500, fontSize: m ? 18 : 22,
           letterSpacing: '0.08em', color: cream,
         }}>
           VOICE<span style={{ color: cyan }}>.</span>
         </div>
-        <ul style={{ display: 'flex', gap: 40, listStyle: 'none', margin: 0, padding: 0, fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase' }}>
-          {['Story','Cast','Listen','Team','Press'].map(x => (
-            <li key={x} style={{ opacity: 0.7 }}>{x}</li>
-          ))}
-        </ul>
-        <button style={{
-          padding: '10px 22px', borderRadius: 999,
-          background: cyan, color: ink, border: 'none',
-          fontSize: 11, letterSpacing: '0.28em', fontWeight: 600,
+        {!m && (
+          <ul style={{ display: 'flex', gap: 40, listStyle: 'none', margin: 0, padding: 0, fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase' }}>
+            {['Story','Cast','Listen','Team'].map(x => (
+              <li key={x} style={{ opacity: 0.7 }}>{x}</li>
+            ))}
+          </ul>
+        )}
+        <a href="mailto:voiceanewmusical@gmail.com" style={{
+          padding: m ? '8px 14px' : '10px 22px', borderRadius: 999,
+          background: cyan, color: ink, border: 'none', textDecoration: 'none',
+          fontSize: m ? 9 : 11, letterSpacing: m ? '0.2em' : '0.28em', fontWeight: 600,
           textTransform: 'uppercase', cursor: 'pointer',
           boxShadow: `0 0 30px ${cyan}66`,
-        }}>Industry Access</button>
+        }}>Contact</a>
       </nav>
 
       {/* ── HERO ────────────────────────────────────── */}
-      <section style={{ position: 'relative', padding: '40px 56px 100px', minHeight: 900, overflow: 'hidden' }}>
-        {/* poster on right, faded */}
+      <section style={{ position: 'relative', padding: m ? '20px 18px 60px' : '40px 56px 100px', minHeight: m ? 'auto' : 900, overflow: 'hidden' }}>
+        {/* poster — faded right (desktop) / centered behind title (mobile) */}
         <div style={{
-          position: 'absolute', right: -100, top: 40, width: 820, height: 820,
-          opacity: 0.55,
+          position: 'absolute',
+          right: m ? '50%' : -100,
+          top: m ? 80 : 40,
+          transform: m ? 'translateX(50%)' : 'none',
+          width: m ? 360 : 820,
+          height: m ? 360 : 820,
+          opacity: m ? 0.25 : 0.55,
           maskImage: 'radial-gradient(circle at center, black 30%, transparent 70%)',
           WebkitMaskImage: 'radial-gradient(circle at center, black 30%, transparent 70%)',
           zIndex: 1, pointerEvents: 'none',
@@ -76,17 +97,17 @@ const Submerged = () => {
         </div>
 
         {/* ambient wave SVG */}
-        <svg style={{ position: 'absolute', left: 0, bottom: 0, width: '100%', height: 200, opacity: 0.25, pointerEvents: 'none', zIndex: 1 }} viewBox="0 0 1280 200" preserveAspectRatio="none">
+        <svg style={{ position: 'absolute', left: 0, bottom: 0, width: '100%', height: m ? 100 : 200, opacity: 0.25, pointerEvents: 'none', zIndex: 1 }} viewBox="0 0 1280 200" preserveAspectRatio="none">
           <path d="M0 120 Q160 60 320 100 T640 100 T960 100 T1280 100 L1280 200 L0 200 Z" fill={teal} />
           <path d="M0 140 Q160 100 320 130 T640 130 T960 130 T1280 130 L1280 200 L0 200 Z" fill={cyan} opacity="0.4" />
         </svg>
 
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: 700, paddingTop: 80 }}>
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: m ? 'none' : 700, paddingTop: m ? 40 : 80 }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 10,
             padding: '6px 14px', borderRadius: 999,
             border: `1px solid ${cyan}66`, background: `${cyan}10`,
-            fontSize: 10, letterSpacing: '0.3em', color: cyan,
+            fontSize: m ? 9 : 10, letterSpacing: m ? '0.2em' : '0.3em', color: cyan,
           }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: cyan, boxShadow: `0 0 10px ${cyan}` }} />
             FESTIVAL WORKSHOP · AMDA SUMMERFEST 2026
@@ -94,113 +115,129 @@ const Submerged = () => {
 
           <h1 style={{
             fontFamily: wordmark, fontWeight: 500,
-            fontSize: 260, lineHeight: 0.9, letterSpacing: '0.01em',
-            margin: '32px 0 0', color: cream,
+            fontSize: m ? 84 : 260, lineHeight: 0.9, letterSpacing: '0.01em',
+            margin: m ? '20px 0 0' : '32px 0 0', color: cream,
             textShadow: `0 0 80px ${cyan}33`,
           }}>
             VOICE<span style={{ color: cyan }}>.</span>
           </h1>
 
-          <div style={{ fontFamily: display, fontStyle: 'italic', fontSize: 36, marginTop: 28, lineHeight: 1.2, color: cream, opacity: 0.9, maxWidth: 640 }}>
+          <div style={{ fontFamily: display, fontStyle: 'italic', fontSize: m ? 22 : 36, marginTop: m ? 18 : 28, lineHeight: 1.25, color: cream, opacity: 0.9, maxWidth: 640 }}>
             A young woman refuses to trade her truth for a fairytale ending.
           </div>
 
-          <div style={{ fontSize: 14, letterSpacing: '0.3em', opacity: 0.55, marginTop: 24, textTransform: 'uppercase' }}>
+          <div style={{ fontSize: m ? 11 : 14, letterSpacing: m ? '0.25em' : '0.3em', opacity: 0.55, marginTop: m ? 16 : 24, textTransform: 'uppercase' }}>
             The Little Mermaid · Turned Inside Out
           </div>
 
-          <div style={{ marginTop: 56, display: 'flex', gap: 14 }}>
+          <div style={{ marginTop: m ? 36 : 56, display: 'flex', gap: m ? 10 : 14, flexDirection: m ? 'column' : 'row', alignItems: m ? 'stretch' : 'flex-start' }}>
             <a href="#listen" style={{
-              padding: '16px 32px', borderRadius: 999,
-              background: cyan, color: ink, border: 'none', textDecoration: 'none',
-              fontSize: 12, letterSpacing: '0.25em', fontWeight: 700, textTransform: 'uppercase',
+              padding: m ? '14px 24px' : '16px 32px', borderRadius: 999,
+              background: cyan, color: ink, border: 'none', textDecoration: 'none', textAlign: 'center',
+              fontSize: m ? 11 : 12, letterSpacing: '0.25em', fontWeight: 700, textTransform: 'uppercase',
               cursor: 'pointer', boxShadow: `0 0 40px ${cyan}55`,
             }}>▶ &nbsp;Hear the Music</a>
             <a href="#story" style={{
-              padding: '16px 32px', borderRadius: 999,
-              background: 'transparent', color: cream, border: `1px solid ${cream}66`, textDecoration: 'none',
-              fontSize: 12, letterSpacing: '0.25em', fontWeight: 600, textTransform: 'uppercase',
+              padding: m ? '14px 24px' : '16px 32px', borderRadius: 999,
+              background: 'transparent', color: cream, border: `1px solid ${cream}66`, textDecoration: 'none', textAlign: 'center',
+              fontSize: m ? 11 : 12, letterSpacing: '0.25em', fontWeight: 600, textTransform: 'uppercase',
               cursor: 'pointer',
             }}>Read the Story ↓</a>
           </div>
 
-          <div style={{ marginTop: 60, fontSize: 11, letterSpacing: '0.28em', opacity: 0.5, textTransform: 'uppercase' }}>
+          <div style={{ marginTop: m ? 40 : 60, fontSize: m ? 9 : 11, letterSpacing: m ? '0.2em' : '0.28em', opacity: 0.5, textTransform: 'uppercase', lineHeight: 1.6 }}>
             Book by Zach Adam &amp; Eidan Lipper · Music &amp; Lyrics by Zach Adam
           </div>
+
+          {/* status callout — INLINE on mobile */}
+          {m && (
+            <div style={{
+              marginTop: 32, padding: 18,
+              background: `${ink2}cc`, backdropFilter: 'blur(20px)',
+              border: `1px solid ${cyan}33`, borderRadius: 4,
+            }}>
+              <div style={{ fontSize: 9, letterSpacing: '0.3em', color: cyan, marginBottom: 8 }}>↳ STATUS</div>
+              <div style={{ fontFamily: display, fontStyle: 'italic', fontSize: 15, lineHeight: 1.4 }}>
+                Festival workshop at <span style={{ color: cyan }}>AMDA Summerfest 2026</span>. Recently presented in concert featuring <span style={{ color: cyan }}>Bonnie Milligan</span> &amp; <span style={{ color: cyan }}>Donald Webber Jr.</span>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* status callout */}
-        <div style={{
-          position: 'absolute', right: 56, bottom: 80,
-          maxWidth: 360, padding: 24,
-          background: `${ink2}dd`, backdropFilter: 'blur(20px)',
-          border: `1px solid ${cyan}33`, borderRadius: 4,
-          zIndex: 3,
-        }}>
-          <div style={{ fontSize: 10, letterSpacing: '0.35em', color: cyan, marginBottom: 10 }}>↳ STATUS</div>
-          <div style={{ fontFamily: display, fontStyle: 'italic', fontSize: 18, lineHeight: 1.4 }}>
-            Festival workshop at <span style={{ color: cyan }}>AMDA Summerfest 2026</span>. Recently presented in concert featuring <span style={{ color: cyan }}>Bonnie Milligan</span> &amp; <span style={{ color: cyan }}>Donald Webber Jr.</span>
+        {/* status callout — ABSOLUTE on desktop */}
+        {!m && (
+          <div style={{
+            position: 'absolute', right: 56, bottom: 80,
+            maxWidth: 360, padding: 24,
+            background: `${ink2}dd`, backdropFilter: 'blur(20px)',
+            border: `1px solid ${cyan}33`, borderRadius: 4,
+            zIndex: 3,
+          }}>
+            <div style={{ fontSize: 10, letterSpacing: '0.35em', color: cyan, marginBottom: 10 }}>↳ STATUS</div>
+            <div style={{ fontFamily: display, fontStyle: 'italic', fontSize: 18, lineHeight: 1.4 }}>
+              Festival workshop at <span style={{ color: cyan }}>AMDA Summerfest 2026</span>. Recently presented in concert featuring <span style={{ color: cyan }}>Bonnie Milligan</span> &amp; <span style={{ color: cyan }}>Donald Webber Jr.</span>
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       {/* ── SYNOPSIS ───────────────────────────────── */}
-      <section id="story" style={{ padding: '120px 56px', position: 'relative' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '280px 1fr', gap: 80 }}>
+      <section id="story" style={{ padding: pad, position: 'relative' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: m ? '1fr' : '280px 1fr', gap: m ? 32 : 80 }}>
           <div>
             <div style={{ fontSize: 11, letterSpacing: '0.35em', color: cyan, textTransform: 'uppercase' }}>01 / Story</div>
             <h2 style={{
               fontFamily: display, fontStyle: 'italic', fontWeight: 300,
-              fontSize: 72, lineHeight: 0.95, margin: '20px 0 0',
+              fontSize: m ? 44 : 72, lineHeight: 0.95, margin: '20px 0 0',
             }}>
-              The<br/>Synopsis
+              The{m ? ' ' : <br/>}Synopsis
             </h2>
-            <div style={{ marginTop: 40 }}>
+            <div style={{ marginTop: m ? 24 : 40 }}>
               <div style={{ fontSize: 10, letterSpacing: '0.35em', opacity: 0.5, marginBottom: 12 }}>THEMES</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', flexDirection: m ? 'row' : 'column', flexWrap: 'wrap', gap: 10 }}>
                 {c.themes.map(t => (
                   <div key={t} style={{
                     padding: '8px 14px', border: `1px solid ${cyan}44`, borderRadius: 999,
-                    fontSize: 12, letterSpacing: '0.1em', display: 'inline-block', alignSelf: 'flex-start',
+                    fontSize: m ? 11 : 12, letterSpacing: '0.1em', display: 'inline-block', alignSelf: 'flex-start',
                   }}>{t}</div>
                 ))}
               </div>
             </div>
           </div>
-          <div style={{ fontSize: 19, lineHeight: 1.75, color: '#d8d0bb' }}>
-            <p style={{ margin: 0, fontFamily: display, fontStyle: 'italic', fontSize: 28, color: cream, lineHeight: 1.35, marginBottom: 32 }}>
+          <div style={{ fontSize: m ? 15 : 19, lineHeight: 1.7, color: '#d8d0bb' }}>
+            <p style={{ margin: 0, fontFamily: display, fontStyle: 'italic', fontSize: m ? 20 : 28, color: cream, lineHeight: 1.35, marginBottom: m ? 24 : 32 }}>
               {c.synopsisShort}
             </p>
             {c.synopsisFull.slice(3).map((p, i) => (
-              <p key={i} style={{ margin: '0 0 18px' }}>{p}</p>
+              <p key={i} style={{ margin: '0 0 16px' }}>{p}</p>
             ))}
           </div>
         </div>
       </section>
 
       {/* ── CHARACTERS ─────────────────────────────── */}
-      <section style={{ padding: '120px 56px', background: ink2, position: 'relative' }}>
+      <section style={{ padding: pad, background: ink2, position: 'relative' }}>
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           background: `radial-gradient(circle at 70% 20%, ${teal}22, transparent 50%)`,
         }} />
         <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56 }}>
+          <div style={{ display: 'flex', flexDirection: m ? 'column' : 'row', justifyContent: 'space-between', alignItems: m ? 'flex-start' : 'flex-end', marginBottom: m ? 36 : 56, gap: m ? 16 : 0 }}>
             <div>
               <div style={{ fontSize: 11, letterSpacing: '0.35em', color: cyan, textTransform: 'uppercase' }}>02 / Cast</div>
               <h2 style={{
                 fontFamily: display, fontStyle: 'italic', fontWeight: 300,
-                fontSize: 80, lineHeight: 0.95, margin: '20px 0 0',
+                fontSize: m ? 40 : 80, lineHeight: 0.95, margin: '20px 0 0',
               }}>
                 Two Worlds, <span style={{ color: cyan }}>One Voice.</span>
               </h2>
             </div>
-            <div style={{ maxWidth: 360, fontSize: 14, lineHeight: 1.5, opacity: 0.7 }}>
+            <div style={{ maxWidth: 360, fontSize: m ? 13 : 14, lineHeight: 1.5, opacity: 0.7 }}>
               Each performer plays a role in Gabi's real world and a mirror role in the fairytale she invents.
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: m ? 12 : 16 }}>
             {c.characters.map((ch, i) => (
               <div key={i} style={{
                 padding: 24, background: `${ink}99`,
@@ -240,25 +277,25 @@ const Submerged = () => {
       </section>
 
       {/* ── LISTEN ─────────────────────────────────── */}
-      <section id="listen" style={{ padding: '120px 56px', position: 'relative' }}>
+      <section id="listen" style={{ padding: pad, position: 'relative' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative' }}>
-          <div style={{ marginBottom: 48 }}>
+          <div style={{ marginBottom: m ? 36 : 48 }}>
             <div style={{ fontSize: 11, letterSpacing: '0.35em', color: cyan, textTransform: 'uppercase' }}>03 / Listen</div>
             <h2 style={{
               fontFamily: display, fontStyle: 'italic', fontWeight: 300,
-              fontSize: 80, lineHeight: 0.95, margin: '20px 0 0',
+              fontSize: m ? 40 : 80, lineHeight: 0.95, margin: '20px 0 0',
             }}>
               Demo <span style={{ color: cyan }}>Score.</span>
             </h2>
-            <div style={{ marginTop: 16, fontSize: 16, opacity: 0.75, maxWidth: 620, lineHeight: 1.5 }}>
-              <em style={{ fontFamily: display, fontSize: 18 }}>Wicked</em> meets <em style={{ fontFamily: display, fontSize: 18 }}>Dear Evan Hansen</em>, wrapped in a modern version of all of your favorite Disney musicals.
+            <div style={{ marginTop: 16, fontSize: m ? 14 : 16, opacity: 0.75, maxWidth: 720, lineHeight: 1.5 }}>
+              If you took <em style={{ fontFamily: display, fontSize: m ? 16 : 18 }}>Wicked</em>, <em style={{ fontFamily: display, fontSize: m ? 16 : 18 }}>Dear Evan Hansen</em> and your favorite Disney musicals and transformed them into something excitingly new — you'd get <em style={{ fontFamily: display, fontSize: m ? 16 : 18, color: cyan }}>Voice</em>.
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'stretch' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: m ? 24 : 56, alignItems: 'stretch' }}>
             {/* Samply embed — left half */}
             <div style={{
-              padding: 24,
+              padding: m ? 16 : 24,
               background: `linear-gradient(135deg, ${ink2}, ${ink})`,
               border: `1px solid ${cyan}33`, borderRadius: 12,
               boxShadow: `0 30px 80px rgba(0,0,0,0.4), 0 0 60px ${cyan}10`,
@@ -276,7 +313,7 @@ const Submerged = () => {
                 frameBorder="0"
                 allowtransparency="true"
                 style={{
-                  width: '100%', flex: 1, minHeight: 540, border: `1px solid ${cream}11`,
+                  width: '100%', flex: 1, minHeight: m ? 480 : 540, border: `1px solid ${cream}11`,
                   borderRadius: 8, marginTop: 8, display: 'block',
                 }}
                 title="Voice — Samply player"
@@ -288,7 +325,7 @@ const Submerged = () => {
               position: 'relative', overflow: 'hidden',
               borderRadius: 12, border: `1px solid ${cyan}22`,
               background: ink2,
-              minHeight: 580,
+              minHeight: m ? 320 : 580,
             }}>
               <img src="assets/wing-underwater.png" alt="" style={{
                 position: 'absolute', inset: 0, width: '100%', height: '100%',
@@ -329,27 +366,27 @@ const Submerged = () => {
       </section>
 
       {/* ── CREATIVE TEAM ──────────────────────────── */}
-      <section id="team" style={{ padding: '120px 56px', background: ink2 }}>
+      <section id="team" style={{ padding: pad, background: ink2 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ marginBottom: 56 }}>
+          <div style={{ marginBottom: m ? 36 : 56 }}>
             <div style={{ fontSize: 11, letterSpacing: '0.35em', color: cyan, textTransform: 'uppercase' }}>04 / Team</div>
             <h2 style={{
               fontFamily: display, fontStyle: 'italic', fontWeight: 300,
-              fontSize: 80, lineHeight: 0.95, margin: '20px 0 0',
+              fontSize: m ? 40 : 80, lineHeight: 0.95, margin: '20px 0 0',
             }}>
               The <span style={{ color: cyan }}>Creators.</span>
             </h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: m ? 24 : 56 }}>
             {c.creators.map((p, i) => (
               <div key={i} style={{
-                padding: 32, background: `${ink}80`,
+                padding: m ? 20 : 32, background: `${ink}80`,
                 border: `1px solid ${cream}10`, borderRadius: 6,
-                display: 'grid', gridTemplateColumns: '150px 1fr', gap: 28, alignItems: 'flex-start',
+                display: 'grid', gridTemplateColumns: m ? '110px 1fr' : '150px 1fr', gap: m ? 18 : 28, alignItems: 'flex-start',
               }}>
                 <div style={{
-                  width: 150, height: 200, overflow: 'hidden',
+                  width: m ? 110 : 150, height: m ? 146 : 200, overflow: 'hidden',
                   background: ink, position: 'relative',
                   boxShadow: `0 0 30px ${cyan}33`,
                   border: `1px solid ${cyan}33`,
@@ -366,8 +403,8 @@ const Submerged = () => {
                 </div>
                 <div style={{ minWidth: 0 }}>
                   <h3 style={{
-                    fontFamily: wordmark, fontWeight: 500, fontSize: 32,
-                    margin: '0 0 8px', lineHeight: 1, letterSpacing: '0.04em',
+                    fontFamily: wordmark, fontWeight: 500, fontSize: m ? 22 : 32,
+                    margin: '0 0 8px', lineHeight: 1.05, letterSpacing: '0.04em',
                   }}>
                     {p.link ? (
                       <a href={p.link} target="_blank" rel="noopener noreferrer" style={{
@@ -392,7 +429,7 @@ const Submerged = () => {
                   }}>
                     {p.role}
                   </div>
-                  <div style={{ fontSize: 13.5, lineHeight: 1.7, opacity: 0.82 }}>
+                  <div style={{ fontSize: m ? 12.5 : 13.5, lineHeight: 1.7, opacity: 0.82 }}>
                     {p.bio.split('\n\n').map((para, j) => (
                       <p key={j} style={{ margin: '0 0 12px' }}>{para}</p>
                     ))}
@@ -405,11 +442,11 @@ const Submerged = () => {
       </section>
 
       {/* ── FOOTER ─────────────────────────────────── */}
-      <footer style={{ padding: '120px 56px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <footer style={{ padding: m ? '80px 20px 40px' : '120px 56px 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         {/* wing-necklace blended into the bottom */}
         <div style={{
-          position: 'absolute', left: '50%', bottom: -120, transform: 'translateX(-50%)',
-          width: 1200, maxWidth: '120%', pointerEvents: 'none',
+          position: 'absolute', left: '50%', bottom: m ? -60 : -120, transform: 'translateX(-50%)',
+          width: m ? 600 : 1200, maxWidth: '120%', pointerEvents: 'none',
           maskImage: 'radial-gradient(ellipse 60% 70% at center, black 30%, transparent 75%)',
           WebkitMaskImage: 'radial-gradient(ellipse 60% 70% at center, black 30%, transparent 75%)',
           opacity: 0.55,
@@ -428,24 +465,25 @@ const Submerged = () => {
         <div style={{ position: 'relative' }}>
           <h2 style={{
             fontFamily: wordmark, fontWeight: 500,
-            fontSize: 110, lineHeight: 1, letterSpacing: '0.02em',
+            fontSize: m ? 48 : 110, lineHeight: 1, letterSpacing: '0.02em',
             margin: 0,
           }}>
             LET HER BE <span style={{ color: cyan }}>HEARD.</span>
           </h2>
-          <div style={{ marginTop: 28, fontFamily: display, fontStyle: 'italic', fontSize: 22, opacity: 0.8, maxWidth: 600, margin: '28px auto 0', lineHeight: 1.4 }}>
+          <div style={{ marginTop: m ? 20 : 28, fontFamily: display, fontStyle: 'italic', fontSize: m ? 17 : 22, opacity: 0.8, maxWidth: 600, margin: m ? '20px auto 0' : '28px auto 0', lineHeight: 1.4 }}>
             For inquiries — get in touch.
           </div>
-          <div style={{ marginTop: 40 }}>
+          <div style={{ marginTop: m ? 28 : 40 }}>
             <a href="mailto:voiceanewmusical@gmail.com" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 14,
-              padding: '20px 36px', borderRadius: 999,
+              display: 'inline-flex', alignItems: 'center', gap: m ? 8 : 14,
+              flexDirection: m ? 'column' : 'row',
+              padding: m ? '16px 24px' : '20px 36px', borderRadius: m ? 16 : 999,
               background: cyan, color: ink, border: 'none', textDecoration: 'none',
-              fontSize: 13, letterSpacing: '0.28em', fontWeight: 700, textTransform: 'uppercase',
+              fontSize: m ? 11 : 13, letterSpacing: '0.25em', fontWeight: 700, textTransform: 'uppercase',
               cursor: 'pointer', boxShadow: `0 0 50px ${cyan}77`,
             }}>
-              ✉ &nbsp;Contact the Team
-              <span style={{ opacity: 0.6, fontSize: 11, letterSpacing: '0.15em', textTransform: 'none' }}>
+              <span>✉ &nbsp;Contact the Team</span>
+              <span style={{ opacity: 0.6, fontSize: m ? 10 : 11, letterSpacing: '0.15em', textTransform: 'none' }}>
                 voiceanewmusical@gmail.com
               </span>
             </a>
@@ -453,8 +491,8 @@ const Submerged = () => {
         </div>
 
         <div style={{
-          marginTop: 120, fontSize: 10, letterSpacing: '0.3em', opacity: 0.4,
-          position: 'relative',
+          marginTop: m ? 80 : 120, fontSize: m ? 9 : 10, letterSpacing: '0.3em', opacity: 0.4,
+          position: 'relative', lineHeight: 1.7,
         }}>
           VOICE THE MUSICAL · ALL RIGHTS RESERVED TO THE WRITERS
         </div>
