@@ -50,6 +50,24 @@ const Submerged = () => {
            radial-gradient(circle at 50% 70%, ${teal}1f, transparent 50%)`,
       }} />
 
+      {/* ── CONFIDENTIAL STRIP ──────────────────────── */}
+      <div style={{
+        position: 'relative', zIndex: 6,
+        borderBottom: `1px solid ${cyan}22`,
+        background: `${ink2}cc`,
+        backdropFilter: 'blur(8px)',
+        padding: m ? '6px 18px' : '8px 56px',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12,
+        fontSize: m ? 9 : 10, letterSpacing: m ? '0.22em' : '0.32em',
+        textTransform: 'uppercase', color: cyan,
+      }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, opacity: 0.9 }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: cyan, boxShadow: `0 0 8px ${cyan}` }} />
+          Electronic Press Kit
+        </span>
+        <span style={{ opacity: 0.55 }}>Confidential · Industry Use Only</span>
+      </div>
+
       {/* ── NAV ─────────────────────────────────────── */}
       <nav style={{
         position: 'relative', zIndex: 5,
@@ -237,41 +255,59 @@ const Submerged = () => {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3, 1fr)', gap: m ? 12 : 16 }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {c.characters.map((ch, i) => (
               <div key={i} style={{
-                padding: 24, background: `${ink}99`,
-                border: `1px solid ${cream}10`,
-                borderRadius: 4,
-                position: 'relative', overflow: 'hidden',
+                display: 'grid',
+                gridTemplateColumns: m ? '1fr' : '320px 1fr',
+                gap: m ? 14 : 56,
+                padding: m ? '24px 0' : '32px 0',
+                borderTop: `1px solid ${cream}14`,
+                position: 'relative',
               }}>
-                {/* faint number watermark */}
-                <div style={{
-                  position: 'absolute', top: -20, right: -8,
-                  fontFamily: display, fontStyle: 'italic', fontSize: 140, lineHeight: 1,
-                  color: cyan, opacity: 0.08,
-                }}>{String(i + 1).padStart(2, '0')}</div>
-
-                <div style={{
-                  width: 64, height: 64, borderRadius: '50%',
-                  background: `linear-gradient(135deg, ${cyan}, ${teal})`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: display, fontStyle: 'italic', fontSize: 28, color: ink,
-                  marginBottom: 18, position: 'relative', zIndex: 1,
-                }}>{ch.name.charAt(0)}</div>
-
-                <div style={{ fontFamily: display, fontStyle: 'italic', fontSize: 26, lineHeight: 1.05, position: 'relative', zIndex: 1 }}>
-                  {ch.name}
+                {/* LEFT — index + name + role + meta */}
+                <div style={{ position: 'relative' }}>
+                  <div style={{
+                    fontFamily: display, fontStyle: 'italic',
+                    fontSize: m ? 14 : 13, color: cyan, opacity: 0.7,
+                    letterSpacing: '0.2em', marginBottom: m ? 6 : 10,
+                  }}>
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div style={{
+                    fontFamily: wordmark, fontWeight: 500,
+                    fontSize: m ? 24 : 30, lineHeight: 1.05,
+                    letterSpacing: '0.03em',
+                  }}>
+                    {ch.name}
+                  </div>
+                  <div style={{
+                    fontFamily: display, fontStyle: 'italic',
+                    fontSize: m ? 14 : 16, color: cyan, opacity: 0.85,
+                    marginTop: 6, lineHeight: 1.3,
+                  }}>
+                    ↳ {ch.alt}
+                  </div>
+                  <div style={{
+                    fontSize: 10, letterSpacing: '0.28em', opacity: 0.55,
+                    marginTop: 12, textTransform: 'uppercase',
+                  }}>
+                    {ch.age} · {ch.voice}
+                  </div>
                 </div>
-                <div style={{ fontSize: 10, letterSpacing: '0.3em', color: cyan, marginTop: 8, textTransform: 'uppercase' }}>
-                  ↳ {ch.alt}
-                </div>
-                <div style={{ fontSize: 11, letterSpacing: '0.15em', opacity: 0.6, marginTop: 8, textTransform: 'uppercase' }}>
-                  {ch.age} · {ch.voice}
-                </div>
-                <p style={{ margin: '14px 0 0', fontSize: 13, lineHeight: 1.5, opacity: 0.78 }}>{ch.desc}</p>
+                {/* RIGHT — full description */}
+                <p style={{
+                  margin: 0,
+                  fontSize: m ? 14 : 15.5, lineHeight: 1.65,
+                  color: '#d8d0bb', opacity: 0.92,
+                  textWrap: 'pretty',
+                }}>
+                  {ch.desc}
+                </p>
               </div>
             ))}
+            {/* closing rule */}
+            <div style={{ borderTop: `1px solid ${cream}14` }} />
           </div>
         </div>
       </section>

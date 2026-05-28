@@ -4,34 +4,317 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Voice — A New Musical</title>
+  <meta name="description" content="Voice — a new musical. A young woman refuses to trade her truth for a fairytale ending." />
+
+  <!-- Discourage indexing so the EPK link stays private even if guessed -->
+  <meta name="robots" content="noindex,nofollow" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter+Tight:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter+Tight:wght@300..600&display=swap" rel="stylesheet">
 
   <style>
-    html, body { margin: 0; padding: 0; background: #070d14; min-height: 100%; }
-    body { font-family: "Inter Tight", system-ui, sans-serif; color: #f0e6cf; }
+    :root {
+      --ink: #070d14;
+      --ink-2: #0e1a26;
+      --cream: #f0e6cf;
+      --cyan: #5fd4e8;
+      --teal: #1f8fb0;
+      --wordmark: "Cinzel", "Trajan Pro", "Cormorant Garamond", Georgia, serif;
+      --display: "Fraunces", "Playfair Display", Georgia, serif;
+      --sans: "Inter Tight", "Inter", system-ui, sans-serif;
+    }
+
     * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    ::selection { background: var(--cyan); color: var(--ink); }
     a { color: inherit; }
-    ::selection { background: #5fd4e8; color: #070d14; }
 
-    /* Smooth scroll for nav anchors */
-    html { scroll-behavior: smooth; }
+    /* Caustic light pools — same vocabulary as EPK */
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(31,143,176,0.22), transparent 40%),
+        radial-gradient(circle at 82% 30%, rgba(95,212,232,0.14), transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(31,143,176,0.18), transparent 55%);
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 60px 56px 60px;
+    }
+
+    /* LEFT — official poster (carries the VOICE wordmark) */
+    .poster-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      max-height: 82vh;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 640px;
+    }
+    .poster-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      /* poster's white side blends into the dark ink with a soft fade */
+      filter: drop-shadow(0 0 60px rgba(95,212,232,0.25)) saturate(1.05);
+    }
+    .poster-wrap::after {
+      content: "";
+      position: absolute; inset: -8%;
+      background: radial-gradient(circle at 50% 50%, rgba(95,212,232,0.18), transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Small wing accent below the CTA */
+    .wing-accent {
+      margin-top: 36px;
+      width: 72px;
+      opacity: 0.55;
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 95%);
+              mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 95%);
+    }
+    .wing-accent img { width: 100%; display: block; }
+
+    /* RIGHT — copy block */
+    .copy { max-width: 480px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      border: 1px solid rgba(95,212,232,0.45);
+      border-radius: 999px;
+      background: rgba(95,212,232,0.06);
+      color: var(--cyan);
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .tag .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .show-label {
+      font-family: var(--wordmark);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.42em;
+      margin: 24px 0 0;
+      color: var(--cream);
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .show-label .accent { color: var(--cyan); }
+
+    .tagline {
+      font-family: var(--display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(26px, 3.2vw, 40px);
+      line-height: 1.18;
+      color: var(--cream);
+      opacity: 0.95;
+      margin: 18px 0 0;
+      max-width: 480px;
+      text-wrap: pretty;
+      letter-spacing: -0.005em;
+    }
+
+    .synopsis {
+      margin: 22px 0 0;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #d8d0bb;
+      opacity: 0.78;
+      max-width: 480px;
+      text-wrap: pretty;
+    }
+
+    .credits {
+      margin-top: 40px;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      line-height: 1.7;
+    }
+
+    .cta-row {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 28px;
+      border-radius: 999px;
+      background: var(--cyan);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 0 40px rgba(95,212,232,0.45);
+      transition: transform .15s ease, box-shadow .15s ease;
+      white-space: nowrap;
+    }
+    .cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 60px rgba(95,212,232,0.6);
+    }
+    .email {
+      font-family: var(--display);
+      font-style: italic;
+      font-size: 15px;
+      opacity: 0.7;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(240,230,207,0.25);
+      padding-bottom: 2px;
+    }
+    .email:hover { opacity: 1; border-bottom-color: var(--cyan); color: var(--cyan); }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 28px 56px 36px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.45;
+    }
+    footer .mark {
+      font-family: var(--wordmark);
+      letter-spacing: 0.18em;
+      font-size: 12px;
+      opacity: 0.85;
+    }
+    footer .mark .accent { color: var(--cyan); }
+
+    /* Ambient wave at the very bottom */
+    .wave {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: 180px;
+      pointer-events: none;
+      opacity: 0.22;
+      z-index: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 880px) {
+      .stage {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 32px 22px 40px;
+        text-align: left;
+      }
+      .poster-wrap {
+        max-height: 56vh;
+        max-width: 420px;
+      }
+      .show-label { font-size: 11px; margin-top: 18px; }
+      .tagline { font-size: 22px; margin-top: 14px; }
+      .synopsis { font-size: 14px; }
+      .cta-row { margin-top: 28px; gap: 14px; }
+      .credits { margin-top: 32px; }
+      .wing-accent { width: 56px; margin-top: 28px; }
+      footer {
+        padding: 18px 22px 28px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 9px;
+      }
+    }
   </style>
-
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div id="root"></div>
+  <main>
+    <section class="stage">
+      <div class="poster-wrap" aria-hidden="true">
+        <img src="assets/poster.png" alt="Voice — A New Musical" />
+      </div>
 
-  <script type="text/babel" src="src/content.jsx"></script>
-  <script type="text/babel" src="src/submerged.jsx"></script>
+      <div class="copy">
+        <span class="tag">
+          <span class="dot"></span>
+          A New Musical · In Development
+        </span>
 
-  <script type="text/babel" data-presets="react">
-    ReactDOM.createRoot(document.getElementById('root')).render(<window.Submerged />);
-  </script>
+        <h1 class="tagline" style="margin-top:24px;">
+          A young woman refuses to trade her truth for a fairytale ending.
+        </h1>
+
+        <p class="synopsis">
+          In a bleak 19th-century fishing town, 18-year-old Gabi escapes the grey through her imagination — and the three classic princesses who bicker inside her head. When a world-famous fairytale contest opens its doors to men only, she sells her late mother's wing necklace and writes her way to the Big City.
+        </p>
+
+        <div class="cta-row">
+          <a class="cta" href="mailto:voiceanewmusical@gmail.com?subject=Voice%20—%20Inquiry">
+            ✉ &nbsp;Get in touch
+          </a>
+          <a class="email" href="mailto:voiceanewmusical@gmail.com">voiceanewmusical@gmail.com</a>
+        </div>
+
+        <div class="wing-accent" aria-hidden="true">
+          <img src="assets/wing-underwater.png" alt="" />
+        </div>
+
+        <div class="credits">
+          Book by Zach Adam &amp; Eidan Lipper<br/>
+          Music &amp; Lyrics by Zach Adam
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="mark">VOICE<span class="accent">.</span></div>
+      <div>© Voice The Musical · All rights reserved to the writers</div>
+    </footer>
+  </main>
+
+  <svg class="wave" viewBox="0 0 1280 200" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 120 Q160 60 320 100 T640 100 T960 100 T1280 100 L1280 200 L0 200 Z" fill="#1f8fb0" />
+    <path d="M0 140 Q160 100 320 130 T640 130 T960 130 T1280 130 L1280 200 L0 200 Z" fill="#5fd4e8" opacity="0.4" />
+  </svg>
 </body>
 </html>

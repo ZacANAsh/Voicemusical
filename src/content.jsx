@@ -28,17 +28,83 @@ window.VOICE_CONTENT = {
   themes: ["Identity & individuality", "Following your dreams", "Family & inherited trauma", "The writing process"],
 
   characters: [
-    { name: "GABI", alt: "ARIELLA", age: "18", voice: "Mezzo-Soprano", desc: "A quirky, big-hearted small-town girl with army boots and her mother's wing necklace. Gabi dreams of becoming the next great fairytale writer and ultimately narrates both worlds of the show." },
-    { name: "ABE", alt: "THE KING / TRAIN CONDUCTOR", age: "40s–50s", voice: "Baritone", desc: "Gabi's disheveled but devoted father — a practical businessman who fears for his daughter's future. In the fairytale he re-emerges as The King, equally protective yet blinded by tradition." },
-    { name: "LEAH", alt: "FORTUNE TELLER / THE QUEEN", age: "40s", voice: "Mezzo", desc: "Gabi's late mother, an imaginative free spirit who teaches her child to never lose her voice. Also Earl's flamboyant Fortune Teller." },
-    { name: "NAOMI", alt: "THE SAGE", age: "50s", voice: "Alto-Mezzo", desc: "Owner of The Book Nest and Gabi's fiercely supportive aunt — wise, wry, book-obsessed. Doubles as the mystical Sage who guides Ariella." },
-    { name: "EARL GREY JR.", alt: "THE PRINCE / FELLOW WRITER", age: "20s", voice: "Pop-Tenor", desc: "Anxious, superstition-ridden heir and reluctant celebrity philanthropist who longs to be liked for himself. His fairytale mirror is The Prince, a vain chauvinist." },
-    { name: "SVANS CHRISTIAN ANDERSSEN", alt: "THE WARLOCK / COSPLAYER / JOSEPH", age: "40s–60s", voice: "Character Bari-Tenor", desc: "The world-famous yet eccentric storyteller whom Gabi idolises. Doubles as the sinister Warlock, plus several cameo roles." },
-    { name: "SNOWY", alt: "SNOW WHITE / MAID SNOWY", age: "20s", voice: "Belt-Soprano", desc: "Pretty, selfish and deliciously vain — represents Gabi's id." },
-    { name: "BEE", alt: "BELLE", age: "20s", voice: "Belt-Mezzo", desc: "Methodical, nerdy planner. The princess trio's resident project manager — represents Gabi's ego." },
-    { name: "CINDY", alt: "CINDERELLA", age: "20s", voice: "Alto", desc: "Permanently unimpressed. The driest wit in the room — represents Gabi's superego." },
-    { name: "HANNAH", alt: "THE DRESSMAKER / VILLAGE WOMAN", age: "30s–40s", voice: "Belt-Mezzo", desc: "Gabi's frazzled childhood friend-turned-mom. The Dressmaker is Ariella's empathetic confidante." },
-    { name: "JOSEPH", alt: "MAYOR / SHMOOTZ / MC / CASTLE GUARD / SILENT MAN", age: "30s–50s", voice: "Character-Baritone", desc: "Pawn-shop owner Joseph slings endless dad-jokes and anchors several comic cameos." },
+    {
+      name: "GABI",
+      alt: "ARIELLA",
+      age: "18",
+      voice: "Mezzo-Soprano",
+      desc: "Gabi is an 18-year-old in army boots and her late mother's golden wing pendant, living in a fishing town where her father wants her married off and her aunt's bookstore is the only place that takes her writing seriously; haunted by three princesses who live in her head, she sells the necklace, dresses as \"Gabriel Goldwing,\" and goes to Fairycon to enter a men-only contest. In her own fairytale she writes herself as Princess Ariella, a royal daughter with the most beautiful voice in the realm who refuses an arranged marriage, escapes the castle in a hooded cloak, and ultimately gives up her own voice to break the Warlock's curse and free the silenced people of Corifany."
+    },
+    {
+      name: "ABE",
+      alt: "THE KING / TRAIN CONDUCTOR",
+      age: "40s–50s",
+      voice: "Baritone",
+      desc: "Abe is Gabi's disheveled but devoted widowed father, a practical businessman who pushes Gabi toward marriage with Earl Grey Jr. and forbids her writing — not from cruelty but from terror, because he watched his wife Leah lose her grip on reality and end her own life, and he has spent eight years hiding that truth from his daughter. His fairytale mirror, The King, is jovial and well-meaning but blinded by tradition, arranging Ariella's marriage to a chauvinistic prince and later giving up his own voice to the disguised Warlock in a desperate bargain to get her back. He also appears briefly as the Train Conductor announcing Gabi's arrival in the Big City."
+    },
+    {
+      name: "LEAH",
+      alt: "FORTUNE TELLER / THE QUEEN",
+      age: "40s",
+      voice: "Mezzo",
+      desc: "Leah is Gabi's late mother, seen in flashback as a vibrant free spirit who read Svans's fairytales aloud on a cliff, clasped her wing pendant around ten-year-old Gabi's neck, and taught her to \"send her voice to the wind\" — and later as the haunted woman who, in Abe's memory, begged him to keep their daughter safe before she took her own life. In the fairytale, she returns as The Queen, a tender memory who reminds Ariella that no one can ever reach the song she keeps inside. She also doubles as Zelda Widdershinstermacher, Earl's flamboyant traveling Fortune Teller who chants and rings a small bell to ward off \"disturbances.\""
+    },
+    {
+      name: "NAOMI",
+      alt: "THE SAGE",
+      age: "50s",
+      voice: "Alto-Mezzo",
+      desc: "Naomi is Leah's sister and Gabi's fiercely supportive aunt, the wry, book-obsessed owner of The Book Nest — a struggling bookstore she opened to fulfill the dream she and Leah shared as girls; she has been waiting eight years for Abe to honor their pact and tell Gabi the truth about her mother, and she refuses to give him Gabi's address in the city until he agrees. Her fairytale double, The Sage, is a feather-cloaked guide hidden in the silenced village of Corifany, who recognizes Ariella the moment she walks in and tells her the dark history of how the banished Warlock began trading wishes for voices."
+    },
+    {
+      name: "EARL GREY JR.",
+      alt: "THE PRINCE / FELLOW WRITER",
+      age: "20s",
+      voice: "Pop-Tenor",
+      desc: "Earl is a wealthy, anxious, deeply superstitious tea heir in his twenties who travels with a personal Fortune Teller, has never been on a date, and is convinced — per his philosophy in \"Everyone Is Selfish\" — that every human contact is a leech after his money; over the course of the show he loses the Fortune Teller, gives a real speech at the orphanage opening, and chooses to move his company's headquarters to the town and save The Book Nest. His fairytale mirror, The Prince, is the inverted version of Earl: vain, dismissive, and openly chauvinistic, telling Ariella she exists to serve him and bear his heir. He also appears briefly as a Fellow Writer at Fairycon — a condescending self-described veteran of \"many of these kinds of events.\""
+    },
+    {
+      name: "SVANS CHRISTIAN ANDERSSEN",
+      alt: "THE WARLOCK / COSPLAYER / JOSEPH",
+      age: "40s–60s",
+      voice: "Character Bari-Tenor",
+      desc: "Svans is the world-famous \"king of fairytales\" Gabi has idolized her whole life — revealed at Fairycon to be a neurotic, paranoid egotist hiding from his own organizers, tormented by the legacy of his one big hit \"The Funky Duckling,\" and willing to offer Gabi an apprenticeship of luxury and access in exchange for publishing her work under his name; when she refuses, he turns vicious. His fairytale double, The Warlock, is the banished former court singer of Ariella's kingdom — a black-cloaked figure who appears to dying villagers offering \"a voice for a wish,\" steals their sound through a glowing gem at his throat, and is finally undone when Ariella spends her own wish to return what he took. He also doubles as Joseph, the dad-joke-slinging pawnshop owner who buys Leah's necklace from Gabi (and sells it back to Abe), and as a laid-back Cosplayer in a wolf onesie who mistakes Gabi for a fellow attendee at Fairycon."
+    },
+    {
+      name: "SNOWY",
+      alt: "SNOW WHITE / MAID SNOWY",
+      age: "20s",
+      voice: "Belt-Soprano",
+      desc: "Snowy is one of three princess voices who live in Gabi's imagination — pretty, vain, and deliciously self-absorbed, perpetually mid-bite of a ruby-red apple, the voice of Gabi's id pushing her toward luxury, drama, and \"Svans's apprentice — dream job!\" In the fairytale world she doubles as Maid Snowy, one of the chattering castle maids who gossips about Ariella's refusal to behave like a proper princess."
+    },
+    {
+      name: "BEE",
+      alt: "BELLE / MAID BEE",
+      age: "20s",
+      voice: "Belt-Mezzo",
+      desc: "Bee is the nerdy, neatly organized planner of the princess trio — Gabi's ego, the methodical project manager with the checklists and the timelines, who also serves as the show's in-world narrator, reading transitional verse aloud from Gabi's notebook. She doubles as Maid Bee, one of Ariella's castle maids."
+    },
+    {
+      name: "CINDY",
+      alt: "CINDERELLA / MAID CINDY",
+      age: "20s",
+      voice: "Alto",
+      desc: "Cindy is the permanently unimpressed deadpan of the princess trio — Gabi's superego, the driest wit in the room, who first floats the idea of submitting as a man, names Gabi \"Gabriel Goldwing\" off the wing pendant, and keeps cutting through Snowy's enthusiasm with \"at what cost?\" She doubles as Maid Cindy, one of Ariella's castle maids."
+    },
+    {
+      name: "HANNAH",
+      alt: "THE DRESSMAKER / VILLAGE WOMAN",
+      age: "30s–40s",
+      voice: "Belt-Mezzo",
+      desc: "Hannah is Gabi's frazzled childhood friend, a former tailor closing her fashion store with relief — happy to hand the lease to the pawnshop and let her husband Phil work while she keeps the house — a quiet mirror of the conventional life Gabi refuses. Her fairytale double, The Dressmaker, is the empathetic traveling seamstress who arrives to measure Ariella for her wedding dress, unfolds a map to the free village of Corifany, and gives Ariella the hooded cloak she escapes in. She also appears as a Village Woman in Corifany — one of the people the Warlock has silenced, her wish spent trying to save her mother."
+    },
+    {
+      name: "THE MAYOR",
+      alt: "SHMOOTZ / MC / CASTLE GUARD / SILENT MAN",
+      age: "30s–50s",
+      voice: "Character-Baritone",
+      desc: "A utility comic anchor stretched across both worlds: the bluster-prone Mayor presiding over ribbon-cuttings, Earl Grey Jr. Day, and the town's slow financial recovery; Shmootz, Svans's pudding-scented German-accented assistant who manages the man with bribes of Streuselkuchen; the high-energy Fairycon MC counting down the opening ceremony and announcing the contest winner; the Castle Guard who heralds Ariella and later wakes The King to report her escape; and the Silent Man in Corifany, mute from the Warlock's curse, who wordlessly leads Ariella to The Sage's door."
+    },
   ],
 
   creators: [
